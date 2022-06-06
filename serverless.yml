@@ -1,0 +1,48 @@
+service: bbog-dig-nestjs-serverless
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+  timeout: 28
+
+
+functions:
+  index:
+    handler: dist/index.handler
+    events:
+      - http:
+          path: "/api/"
+          method: any
+          cors:
+            origin: "*"
+            headers:
+              - 'Content-Type'
+              - 'X-Amz-Date'
+              - 'Authorization'
+              - 'X-Api-Key'
+              - 'X-Amz-Security-Token'
+              - 'X-Amz-User-Agent'
+              - 'X-Amz-Content-Sha256'
+              - 'X-Amz-Credential'
+              - 'X-Amz-Signature'
+            allowCredentials: false
+      - http:
+          path: "/api/{proxy+}"
+          method: any
+          cors:
+            origin: "*"
+            headers:
+              - 'Content-Type'
+              - 'X-Amz-Date'
+              - 'Authorization'
+              - 'X-Api-Key'
+              - 'X-Amz-Security-Token'
+              - 'X-Amz-User-Agent'
+              - 'X-Amz-Content-Sha256'
+              - 'X-Amz-Credential'
+              - 'X-Amz-Signature'
+            allowCredentials: false
